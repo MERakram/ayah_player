@@ -10,6 +10,7 @@ class surahs_page extends StatefulWidget {
   final edition;
 
   const surahs_page({super.key, required this.edition});
+
   @override
   _surahs_pageState createState() {
     return _surahs_pageState();
@@ -32,7 +33,7 @@ class _surahs_pageState extends State<surahs_page> {
 
   Future<void> readJson() async {
     final String response =
-    await rootBundle.loadString('assets/json_data/surat.json');
+        await rootBundle.loadString('assets/json_data/surat.json');
     final data = await json.decode(response);
     setState(() {
       _items = data;
@@ -64,8 +65,9 @@ class _surahs_pageState extends State<surahs_page> {
                       MaterialPageRoute(
                         builder: (context) => player_page(
                           widget.edition,
-                          _items[index]["name"],
                           _items[index]["surah"],
+                          1,
+                          7,
                         ),
                       ),
                     );

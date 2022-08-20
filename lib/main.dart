@@ -26,10 +26,12 @@ class MyApp extends StatelessWidget {
 
 class player_page extends StatefulWidget {
   final edition;
-  final surah;
   final ayahs_number;
+  final first_ayahs_index;
+  final last_ayahs_index;
 
-  player_page(this.edition, this.surah, this.ayahs_number);
+  player_page(this.edition, this.ayahs_number,
+      this.first_ayahs_index, this.last_ayahs_index);
 
   @override
   State<player_page> createState() => _player_pageState();
@@ -53,8 +55,8 @@ class _player_pageState extends State<player_page> {
   @override
   void initState() {
     super.initState();
-    co = int.parse(widget.ayahs_number);
-    for (int i = 1; i < 8; i++) {
+    co = widget.first_ayahs_index;
+    for (int i = widget.first_ayahs_index; i <= widget.last_ayahs_index; i++) {
       ayahs_list.add(
         AudioSource.uri(
           Uri.parse(
@@ -72,8 +74,7 @@ class _player_pageState extends State<player_page> {
       children: ayahs_list,
     );
     _player.setAudioSource(playlist,
-        initialIndex: 0,
-        initialPosition: Duration.zero);
+        initialIndex: 0, initialPosition: Duration.zero);
   }
 
   Widget buildPlayer() {
@@ -94,13 +95,6 @@ class _player_pageState extends State<player_page> {
                 ),
                 SizedBox(
                   height: 30,
-                ),
-                Text(
-                  widget.surah,
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: 20,
                 ),
                 Text(
                   co.toString(),
@@ -131,6 +125,7 @@ class _player_pageState extends State<player_page> {
                       onTap: () async {
                         await _player.seek(Duration.zero,
                             index: _player.effectiveIndices!.first);
+                        await _player.play();
                       },
                       child: Icon(Icons.replay_sharp),
                     ),
