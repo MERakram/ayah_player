@@ -30,8 +30,8 @@ class player_page extends StatefulWidget {
   final first_ayahs_index;
   final last_ayahs_index;
 
-  player_page(this.edition, this.ayahs_number,
-      this.first_ayahs_index, this.last_ayahs_index);
+  player_page(this.edition, this.ayahs_number, this.first_ayahs_index,
+      this.last_ayahs_index);
 
   @override
   State<player_page> createState() => _player_pageState();
@@ -96,13 +96,13 @@ class _player_pageState extends State<player_page> {
                 SizedBox(
                   height: 30,
                 ),
-                Text(
-                  co.toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: 200,
-                ),
+                // Text(
+                //   co.toString(),
+                //   style: TextStyle(fontSize: 20),
+                // ),
+                // SizedBox(
+                //   height: 200,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -178,74 +178,72 @@ class _player_pageState extends State<player_page> {
                 SizedBox(
                   height: 65,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            if (co > 1) {
-                              setState(() {
-                                co--;
-                              });
-                              await _player.seekToPrevious();
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackBars.failureSnackBar);
-                            }
-                          },
-                          child: neuBox(
-                            child: Icon(
-                              Icons.skip_previous,
-                              size: 32,
-                            ),
+                      StreamBuilder<SequenceState?>(
+                        stream: _player.sequenceStateStream,
+                        builder: (context, snapshot) => IconButton(
+                          icon: const Icon(
+                            Icons.skip_previous,
+                            size: 40,
                           ),
+                          onPressed: _player.hasPrevious
+                              ? _player.seekToPrevious
+                              : null,
                         ),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (isPlaying) {
-                                await _player.pause();
-                                setState(() {
-                                  isPlaying = false;
-                                });
-                              } else {
-                                setState(() {
-                                  isPlaying = true;
-                                });
-                                await _player.play();
-                              }
-                            },
-                            child: neuBox(
-                              child: Icon(
-                                isPlaying ? Icons.pause : Icons.play_arrow,
-                                size: 32,
-                              ),
-                            ),
-                          ),
-                        ),
+                      SizedBox(
+                        width: 50,
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            if (co < 7) {
-                              setState(() {
-                                co++;
-                              });
-                              await _player.seekToNext();
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackBars.failureSnackBar);
-                            }
-                          },
-                          child: neuBox(
-                            child: Icon(
-                              Icons.skip_next,
-                              size: 32,
-                            ),
+                      StreamBuilder<PlayerState>(
+                        stream: _player.playerStateStream,
+                        builder: (context, snapshot) {
+                          final playerState = snapshot.data;
+                          final processingState = playerState?.processingState;
+                          final playing = playerState?.playing;
+                          if (processingState == ProcessingState.loading ||
+                              processingState == ProcessingState.buffering) {
+                            return Container(
+                              margin: const EdgeInsets.all(8.0),
+                              width: 60.0,
+                              height: 60.0,
+                              child: const CircularProgressIndicator.adaptive(),
+                            );
+                          } else if (playing != true) {
+                            return IconButton(
+                              icon: const Icon(Icons.play_arrow),
+                              iconSize: 64.0,
+                              onPressed: _player.play,
+                            );
+                          } else if (processingState !=
+                              ProcessingState.completed) {
+                            return IconButton(
+                              icon: const Icon(Icons.pause),
+                              iconSize: 64.0,
+                              onPressed: _player.pause,
+                            );
+                          } else {
+                            return IconButton(
+                              icon: const Icon(Icons.replay),
+                              iconSize: 64.0,
+                              onPressed: () => _player.seek(Duration.zero,
+                                  index: _player.effectiveIndices!.first),
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      StreamBuilder<SequenceState?>(
+                        stream: _player.sequenceStateStream,
+                        builder: (context, snapshot) => IconButton(
+                          icon: const Icon(
+                            Icons.skip_next,
+                            size: 40,
                           ),
+                          onPressed:
+                              _player.hasNext ? _player.seekToNext : null,
                         ),
                       ),
                     ],
