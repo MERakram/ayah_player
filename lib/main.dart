@@ -89,13 +89,13 @@ class _player_pageState extends State<player_page> {
                 SizedBox(
                   height: 30,
                 ),
-                Text(
-                  widget.edition,
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
+                // Text(
+                //   widget.edition,
+                //   style: TextStyle(fontSize: 20),
+                // ),
+                // SizedBox(
+                //   height: 30,
+                // ),
                 // Text(
                 //   co.toString(),
                 //   style: TextStyle(fontSize: 20),
