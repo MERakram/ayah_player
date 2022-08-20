@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:surah_player/surah_list.dart';
-
 import 'component/common.dart';
 import 'edition_list.dart';
 import 'component/neu_container.dart';
@@ -91,27 +88,27 @@ class _player_pageState extends State<player_page> {
                 SizedBox(
                   height: 30,
                 ),
-                // Text(
-                //   widget.edition,
-                //   style: TextStyle(fontSize: 20),
-                // ),
-                // SizedBox(
-                //   height: 30,
-                // ),
-                // Text(
-                //   widget.surah,
-                //   style: TextStyle(fontSize: 20),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // Text(
-                //   co.toString(),
-                //   style: TextStyle(fontSize: 20),
-                // ),
-                // SizedBox(
-                //   height: 200,
-                // ),
+                Text(
+                  widget.edition,
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  widget.surah,
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  co.toString(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(
+                  height: 200,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
