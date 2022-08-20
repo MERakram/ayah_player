@@ -4,8 +4,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'component/common.dart';
 import 'edition_list.dart';
-import 'component/neu_container.dart';
-import 'component/snack_bars.dart';
 
 void main() {
   runApp(MyApp());
@@ -89,20 +87,6 @@ class _player_pageState extends State<player_page> {
                 SizedBox(
                   height: 30,
                 ),
-                // Text(
-                //   widget.edition,
-                //   style: TextStyle(fontSize: 20),
-                // ),
-                // SizedBox(
-                //   height: 30,
-                // ),
-                // Text(
-                //   co.toString(),
-                //   style: TextStyle(fontSize: 20),
-                // ),
-                // SizedBox(
-                //   height: 200,
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

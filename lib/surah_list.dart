@@ -9,7 +9,7 @@ import 'main.dart';
 class surahs_page extends StatefulWidget {
   final edition;
 
-  const surahs_page({super.key, required this.edition});
+  const surahs_page({ required this.edition});
 
   @override
   _surahs_pageState createState() {
